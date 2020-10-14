@@ -92,8 +92,8 @@ ALTER TABLE `users`
 --
 -- Constraints for table `users`
 --
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`name`) REFERENCES `posts` (`uname`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `posts`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`uname`) REFERENCES `users` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
