@@ -25,7 +25,6 @@ services:
   privileged: true
   links:
    - mysql:mysql
-   - myredis:myredis
   networks:
    - app-network
 
