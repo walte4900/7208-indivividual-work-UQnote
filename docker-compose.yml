@@ -6,14 +6,15 @@ services:
   restart: always
   environment:
    MASTER: 1
-   SERVER_ID: 3
+   SERVER_ID: 1
    REPLICATION_PASSWORD: MyDBRoot123
    MYSQL_ROOT_PASSWORD: MyDBRoot123
    MYSQL_DATABASE: notes
    MYSQL_USER: php
    MYSQL_PASSWORD: php
   volumes:
-   - ./UQNote:/var/lib/mysql
+   - ./:/var/lib/mysql
+   - ./notes.sql:docker-entrypoint-initdb.d/notes.sql
   ports:
    - "3306:3306"
   networks:
@@ -27,21 +28,17 @@ services:
    SERVER_ID: 3
    REPLICATION_PASSWORD: MyDBRoot123
    MYSQL_ROOT_PASSWORD: MyDBRoot123
-   MYSQL_DATABASE: notes
-   DATABASE_FILE: notes.sql
-   MYSQL_USER: php
-   MYSQL_PASSWORD: php
    MASTER_HOST: mysqlMaster
    MASTER_PORT: 3306
    MASTER_LOG_FILE: mysql-bin.000003
    MASTER_LOG_POS: 0
-
-  volumes:
-   - ./UQNote:/var/lib/mysql
-  ports:
-   - "3307:3306"
-  networks:
-   - app-network
+   volumes:
+    - ./:/var/lib/mysql
+    - ./notes.sql:docker-entrypoint-initdb.d/notes.sql
+   ports:
+    - "3307:3306"
+   networks:
+    - app-network
   
 
  myphp:
@@ -56,7 +53,7 @@ services:
    - ./UQNote:/var/www/html
   privileged: true
   links:
-   - mysql:mysql
+   - mysqlMaster
   networks:
    - app-network
 
