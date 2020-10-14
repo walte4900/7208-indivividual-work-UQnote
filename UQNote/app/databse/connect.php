@@ -1,6 +1,6 @@
 <?php
 
-$servername = "mysql";
+$servername = "mysqlMaster";
 $username = "php";
 $password = "php";
 $db_name = "notes";
