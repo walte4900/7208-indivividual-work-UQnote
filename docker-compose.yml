@@ -9,6 +9,8 @@ services:
    MYSQL_DATABASE: php
    MYSQL_USER: php
    MYSQL_PASSWORD: notes
+  volumes:
+   - ./UQnote:/var/lib/mysql
   ports:
    - "3306:3306"
   networks:
