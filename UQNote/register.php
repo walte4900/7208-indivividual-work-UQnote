@@ -18,7 +18,7 @@
 <body>
     <div id='container'>
         <div id='body'>
-            <?php include( ROOT_PATH . "\app\inlcude\header.php"); ?>
+            <?php include( ROOT_PATH . "/app/inlcude/header.php"); ?>
         </div>
 
         <div class="auth-content">
