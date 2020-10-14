@@ -1,8 +1,8 @@
 <?php
 
-$servername = "mysqlMaster";
-$username = "php";
-$password = "php";
+$servername = "mysql-master";
+$username = "root";
+$password = "root";
 $db_name = "notes";
 
 // Create connection
