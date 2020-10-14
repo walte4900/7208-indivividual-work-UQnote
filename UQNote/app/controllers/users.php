@@ -3,7 +3,7 @@
 $_SESSION['id'] = null;
 $_SESSION['name'] = null;
 
-include(ROOT_PATH . "\app\databse\db.php");
+include(ROOT_PATH . "/app/databse/db.php");
 include(ROOT_PATH . "/app/msgs/valide.php");
 
 $username = '';
