@@ -17,6 +17,8 @@ if (isset($_POST['post-btn'])) {
         $_POST['uname'] = $_SESSION['name'];
         //dd($_POST);
         $id = insert('posts',$_POST);
+    
     }
     return $id;
+    header('location:' . BASE_URL . '../../single.php?id='.$id);
 }
