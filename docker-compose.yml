@@ -6,9 +6,9 @@ services:
   restart: always
   environment:
    MYSQL_ROOT_PASSWORD: MyDBRoot123
-   MYSQL_DATABASE: php
+   MYSQL_DATABASE: notes
    MYSQL_USER: php
-   MYSQL_PASSWORD: notes
+   MYSQL_PASSWORD: php
   volumes:
    - ./UQNote:/var/lib/mysql
   ports:
