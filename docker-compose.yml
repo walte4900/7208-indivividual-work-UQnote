@@ -24,7 +24,7 @@ services:
       MYSQL_PASSWORD: php
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: slave
-    restart: restart
+    restart: always
     volumes:
     - ./mysql-slave/data:/var/lib/mysql:rw
     - ./mysql-slave/custom.cnf:/etc/mysql/conf.d/custom.cnf:ro
