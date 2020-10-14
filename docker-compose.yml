@@ -27,18 +27,13 @@ services:
     networks:
       - my-net
       
-  phpmyadmin:
-    image: phpmyadmin
-    environment:
-     - PMA_ARBITRARY=1
-     - PMA_HOST=mysql
+  adminer:
+    image: adminer:fastcgi
     restart: always
+    external_links:
+        - db_server:mysql
     ports:
-     - "3307"
-    depends_on:
-      - mysql
-    networks:
-      - my-net
+      - 9000:9000
       
       
 
