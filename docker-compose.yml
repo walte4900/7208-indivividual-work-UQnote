@@ -16,6 +16,8 @@ services:
       - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
     ports:
       - 3306:3306
+    networks:
+      - app-network
 
   mysql-slave:
     image: mariadb:latest
@@ -26,10 +28,12 @@ services:
       MYSQL_USER: slave
     restart: always
     volumes:
-    - ./mysql-slave/data:/var/lib/mysql:rw
-    - ./mysql-slave/custom.cnf:/etc/mysql/conf.d/custom.cnf:ro
+      - ./mysql-slave/data:/var/lib/mysql:rw
+      - ./mysql-slave/custom.cnf:/etc/mysql/conf.d/custom.cnf:ro
     ports:
-    - 3306:3306
+      - 3306:3306
+    networks:
+      - app-network
 
  
   myphp:
