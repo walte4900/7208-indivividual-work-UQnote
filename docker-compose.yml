@@ -14,7 +14,7 @@ services:
    MYSQL_PASSWORD: php
   volumes:
    - ./:/var/lib/mysql
-   - ./notes.sql:docker-entrypoint-initdb.d/notes.sql
+   - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
   ports:
    - "3306:3306"
   networks:
@@ -34,7 +34,7 @@ services:
    MASTER_LOG_POS: 0
    volumes:
     - ./:/var/lib/mysql
-    - ./notes.sql:docker-entrypoint-initdb.d/notes.sql
+    - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
    ports:
     - "3307:3306"
    networks:
