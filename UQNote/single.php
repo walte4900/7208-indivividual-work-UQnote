@@ -1,6 +1,6 @@
 <?php include("path.php");?>
-<?php include(ROOT_PATH . "\app\controllers\users.php");?>
-<?php include(ROOT_PATH . "\app\controllers\post.php");?>
+<?php include(ROOT_PATH . "/app/controllers/users.php");?>
+<?php include(ROOT_PATH . "/app/controllers/post.php");?>
 <?php //dd($posts);?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +17,7 @@
 <body>
     <div id="container">
         <div id="body">
-            <?php include(ROOT_PATH . "\app\inlcude\header.php"); ?>
+            <?php include(ROOT_PATH . "/app/inlcude/header.php"); ?>
         
             <section class="content clearfix">
                 <h1 class='recent-post-title'>Note Detail</h1>
