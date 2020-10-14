@@ -1,46 +1,56 @@
 version: "3.3"
 services:
 
- mariadb-master:
+ mysqlMaster:
   image: mariadb:latest
   restart: always
-  ports:
-   - 3306:3306
   environment:
+   MASTER: 1
+   SERVER_ID: 1
+   LOG_BIN: mysql-bin
+   REPLICATION_PASSWORD: root
    MYSQL_ROOT_PASSWORD: root
    MYSQL_DATABASE: notes
   volumes:
-   - ./master/my.cnf:/etc/mysql/my.cnf
-   - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
- 
- mariadb-slave:
-  image: mariadb:latest
-  depends_on: mariadb-master
-  restart: always
+   - ./notes.sql:docker-entrypoint-initdb.d/notes.sql
   ports:
-   - 3306:3307
-  environment:
-   MYSQL_ROOT_PASSWORD: root
-   MYSQL_DATABASE: notes
-  volumes:
-   - ./slave/my.cnf:/etc/mysql/my.cnf
-   - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
+   - "3306:3306"
+  networks:
+   - app-network
 
+ mysqlSlave:
+  image: mariadb:latest
+  restart: always
+  environment:
+   SLAVE: 1
+   SERVER_ID: 3
+   REPLICATION_PASSWORD: root
+   MYSQL_ROOT_PASSWORD: root
+   MASTER_HOST: mysqlMaster
+   MASTER_PORT: 3306
+   MASTER_LOG_FILE: mysql-bin.000003
+   MASTER_LOG_POS: 2900
+   volumes:
+    - ./notes.sql:docker-entrypoint-initdb.d/notes.sql
+  ports:
+    - "3307:3306"
+  networks:
+    - app-network
   
 
  myphp:
   image: svenuq/45076396:a2
   restart: always
   depends_on:
-   - mariadb-master
-   - mariadb-slave
+   - mysqlMaster
+   - mysqlSlave
   ports:
    - "9000:9000"
   volumes:
    - ./UQNote:/var/www/html
   privileged: true
   links:
-   - mariadb-master
+   - mysqlMaster
   networks:
    - app-network
 
