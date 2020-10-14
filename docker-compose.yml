@@ -1,10 +1,13 @@
 version: "3.3"
 services:
 
- mysql:
+ mysqlMaster:
   image: mariadb:latest
   restart: always
   environment:
+   MASTER: 1
+   SERVER_ID: 3
+   REPLICATION_PASSWORD: MyDBRoot123
    MYSQL_ROOT_PASSWORD: MyDBRoot123
    MYSQL_DATABASE: notes
    MYSQL_USER: php
@@ -16,8 +19,34 @@ services:
   networks:
    - app-network
 
+ mysqlSlave:
+  image: mariadb:latest
+  restart: always
+  environment:
+   SLAVE: 1
+   SERVER_ID: 3
+   REPLICATION_PASSWORD: MyDBRoot123
+   MYSQL_ROOT_PASSWORD: MyDBRoot123
+   MYSQL_DATABASE: notes
+   DATABASE_FILE: notes.sql
+   MYSQL_USER: php
+   MYSQL_PASSWORD: php
+   MASTER_HOST: mysqlMaster
+   MASTER_PORT: 3306
+   MASTER_LOG_FILE: mysql-bin.000003
+   MASTER_LOG_POS: 0
+
+  volumes:
+   - ./UQNote:/var/lib/mysql
+  ports:
+   - "3307:3306"
+    networks:
+     - app-network
+  
+
  myphp:
   image: svenuq/45076396:a2
+  restart: always
   depends_on:
    - mysql
   ports:
@@ -34,6 +63,7 @@ services:
   depends_on:
    - myphp
   image: nginx:latest
+  restart: always
   ports:
    - "8080:80"
   volumes:
