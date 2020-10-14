@@ -24,8 +24,6 @@ services:
       - ./src:/var/www/html
     depends_on:
       - mysql
-      - myredis-master
-      - myredis-replica
     networks:
       - my-net
 
