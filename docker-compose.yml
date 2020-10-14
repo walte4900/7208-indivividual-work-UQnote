@@ -1,79 +1,73 @@
-version: "3.3"
+version: '3.3'
+
 services:
+  mysql-master:
+    image: mariadb:latest
+    restart: always
+    environment:
+      HOSTNAME: mysql-master
+      MYSQL_DATABASE: notes
+      MYSQL_PASSWORD: php
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: php
+    volumes:
+      - ./master/data:/var/lib/mysql:rw
+      - ./master/my.cnf:/etc/mysql/conf.d/custom.cnf:ro
+      - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
+    ports:
+      - 3306:3306
 
- mariadb-master:
-  image: mariadb:latest
-  ports:
-   - '3306'
-  volumes:
-   - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
-  environment:
-   MARIADB_REPLICATION_MODE: master
-   MARIADB_REPLICATION_USER: repl_user
-   MARIADB_USER: php
-   MARIADB_DATABASE: notes
-   MARIADB_ROOT_PASSWORD: my_root_password
-  volumes:
-   - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
-  networks:
-   - app-network
+  mysql-slave:
+    image: mariadb:latest
+    environment:
+      MYSQL_DATABASE: notes
+      MYSQL_PASSWORD: php
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: slave
+    restart: restart
+    volumes:
+    - ./mysql-slave/data:/var/lib/mysql:rw
+    - ./mysql-slave/custom.cnf:/etc/mysql/conf.d/custom.cnf:ro
+    ports:
+    - 3306:3306
 
- mariadb-slave:
-  image: mariadb:latest
-  ports:
-   - '3306'
-  depends_on:
-   - mariadb-master
-  environment:
-   MARIADB_REPLICATION_MODE: slave
-   MARIADB_REPLICATION_USER: repl_user
-   MARIADB_USER: php
-   MARIADB_DATABASE: notes
-   MARIADB_MASTER_HOST: mariadb-master
-   MARIADB_MASTER_PORT_NUMBER: 3306
-   MARIADB_MASTER_ROOT_PASSWORD: root
-  volumes:
-   - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
-  networks:
-   - app-network
-  
+ 
+  myphp:
+    image: svenuq/45076396:a2
+    restart: always
+    depends_on:
+      - mysql-master
+      - mysql-slave
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./UQNote:/var/www/html
+    privileged: true
+    links:
+      - mysql-master
+    networks:
+      - app-network
 
- myphp:
-  image: svenuq/45076396:a2
-  restart: always
-  depends_on:
-   - mariadb-master
-   - mariadb-slave
-  ports:
-   - "9000:9000"
-  volumes:
-   - ./UQNote:/var/www/html
-  privileged: true
-  links:
-   - mariadb-master
-  networks:
-   - app-network
-
- mynginx:
-  depends_on:
-   - myphp
-  image: nginx:latest
-  restart: always
-  ports:
-   - "8080:80"
-  volumes:
-   - ./UQNote:/var/www/html
-   - ./nginx.ini:/etc/nginx/conf.d/default.conf
-   - ./php-fpm.conf:/etc/php/7.4/fpm/php-fpm.conf
-   - ./www.conf:/etc/php/7.4/fpm/pool.d/www.conf
-  links:
-   - myphp:myphp
-  privileged: true
-  restart: always
-  networks:
-   - app-network
+  mynginx:
+    depends_on:
+      - myphp
+    image: nginx:latest
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./UQNote:/var/www/html
+      - ./nginx.ini:/etc/nginx/conf.d/default.conf
+      - ./php-fpm.conf:/etc/php/7.4/fpm/php-fpm.conf
+      - ./www.conf:/etc/php/7.4/fpm/pool.d/www.conf
+    links:
+      - myphp:myphp
+    privileged: true
+    restart: always
+    networks:
+      - app-network
 
 
 networks:
- app-network:
-  driver: bridge
+  app-network:
+    driver: bridge
