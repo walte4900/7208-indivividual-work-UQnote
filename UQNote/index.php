@@ -58,7 +58,7 @@
                                 <div style="background-image: url('assets/images/note.jpg');
                                 background-size: 100% auto;" alt="" class="post-image"></div>
                                 <div class="post-preview">
-                                    <h2 class='post-preview-title'><a href="single.php"><?php echo $post['title'];?></a></h2>
+                                    <h2 class='post-preview-title'><a href="single.php?id=<?php echo $post['id'];?>"><?php echo $post['title'];?></a></h2>
                                     <i class="fa fa-user"><?php echo $post['uname'];?></i>
                                     &nbsp
                                     <i class="fa fa-calendar"></i><?php echo $post['date'];?>
