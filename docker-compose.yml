@@ -11,8 +11,8 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: php
     volumes:
-      - ./master/data:/var/lib/mysql:rw
-      - ./master/my.cnf:/etc/mysql/conf.d/custom.cnf:ro
+      - ./master/data:/var/lib/mysql
+      - ./master/my.cnf:/etc/mysql/conf.d/custom.cnf
       - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
     ports:
       - 3306:3306
@@ -28,8 +28,8 @@ services:
       MYSQL_USER: slave
     restart: always
     volumes:
-      - ./slave/data:/var/lib/mysql:rw
-      - ./slave/my.cnf:/etc/mysql/conf.d/custom.cnf:ro
+      - ./slave/data:/var/lib/mysql
+      - ./slave/my.cnf:/etc/mysql/conf.d/custom.cnf
     ports:
       - 3307:3306
     networks:
