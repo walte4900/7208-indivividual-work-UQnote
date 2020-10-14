@@ -31,9 +31,9 @@ services:
     image: nginx
     restart: always
     volumes:
-      - ./src/nginx.ini:/etc/nginx/conf.d/default.conf
-      - ./src/php-fpm.conf:/etc/php/7.4/fpm/php-fpm.conf
-      - ./src/www.conf:/etc/php/7.4/fpm/pool.d/www.conf
+      - ./nginx.ini:/etc/nginx/conf.d/default.conf
+      - ./php-fpm.conf:/etc/php/7.4/fpm/php-fpm.conf
+      - ./www.conf:/etc/php/7.4/fpm/pool.d/www.conf
       - ./src:/var/www/html/
     ports:
       - "8080:80"
