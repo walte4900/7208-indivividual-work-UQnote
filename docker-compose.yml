@@ -28,8 +28,8 @@ services:
       MYSQL_USER: slave
     restart: always
     volumes:
-      - ./mysql-slave/data:/var/lib/mysql:rw
-      - ./mysql-slave/my.cnf:/etc/mysql/conf.d/custom.cnf:ro
+      - ./slave/data:/var/lib/mysql:rw
+      - ./slave/my.cnf:/etc/mysql/conf.d/custom.cnf:ro
     ports:
       - 3307:3306
     networks:
