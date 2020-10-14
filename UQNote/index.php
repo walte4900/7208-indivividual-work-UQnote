@@ -1,6 +1,6 @@
 <?php include("path.php"); ?>
-<?php include(ROOT_PATH . "\app\controllers\users.php");?>
-<?php include(ROOT_PATH . "\app\controllers\post.php");?>
+<?php include(ROOT_PATH . "/app/controllers/users.php");?>
+<?php include(ROOT_PATH . "/app/controllers/post.php");?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +21,7 @@
         <div id='body'>
 
             <!--Insert header-->
-            <?php include(ROOT_PATH . "\app\inlcude\header.php"); ?>
+            <?php include(ROOT_PATH . "/app/inlcude/header.php"); ?>
 
             <?php if(isset($_SESSION['msg'])):?>
                 <div class="msg <?php echo $_SESSION['type']; ?>">
