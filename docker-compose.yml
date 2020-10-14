@@ -12,7 +12,6 @@ services:
    MARIADB_REPLICATION_USER: repl_user
    MARIADB_USER: php
    MARIADB_DATABASE: notes
-   ALLOW_EMPTY_PASSWORD: yes
    MARIADB_ROOT_PASSWORD: my_root_password
   volumes:
    - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
