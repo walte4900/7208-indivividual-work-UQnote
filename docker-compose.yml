@@ -40,8 +40,8 @@ services:
    - ./UQNote:/var/lib/mysql
   ports:
    - "3307:3306"
-    networks:
-     - app-network
+  networks:
+   - app-network
   
 
  myphp:
