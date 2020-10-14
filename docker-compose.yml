@@ -32,15 +32,15 @@ services:
   image: svenuq/45076396:a2
   restart: always
   depends_on:
-   - mysqlMaster
-   - mysqlSlave
+   - mariadb-master
+   - mariadb-slave
   ports:
    - "9000:9000"
   volumes:
    - ./UQNote:/var/www/html
   privileged: true
   links:
-   - mysqlMaster
+   - mariadb-master
   networks:
    - app-network
 
