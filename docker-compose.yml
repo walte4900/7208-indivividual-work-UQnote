@@ -10,7 +10,7 @@ services:
    MYSQL_USER: php
    MYSQL_PASSWORD: notes
   volumes:
-   - ./UQnote:/var/lib/mysql
+   - ./UQNote:/var/lib/mysql
   ports:
    - "3306:3306"
   networks:
@@ -23,7 +23,7 @@ services:
   ports:
    - "9000:9000"
   volumes:
-   - ./UQnote:/var/www/html
+   - ./UQNote:/var/www/html
   privileged: true
   links:
    - mysql:mysql
@@ -37,7 +37,7 @@ services:
   ports:
    - "8080:80"
   volumes:
-   - ./UQnote:/var/www/html
+   - ./UQNote:/var/www/html
    - ./nginx.ini:/etc/nginx/conf.d/default.conf
    - ./php-fpm.conf:/etc/php/7.4/fpm/php-fpm.conf
    - ./www.conf:/etc/php/7.4/fpm/pool.d/www.conf
