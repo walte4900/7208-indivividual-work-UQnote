@@ -1,5 +1,5 @@
 <?php
-//include(ROOT_PATH . "\app\databse\db.php");
+//include(ROOT_PATH . "/app/databse/db.php");
 
 $all = selectAll('posts');
 
