@@ -13,6 +13,7 @@ services:
    MYSQL_USER: php
    MYSQL_PASSWORD: php
   volumes:
+   - ./master/my.cnf:/etc/my.cnf
    - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
   ports:
    - "3306:3306"
@@ -24,7 +25,7 @@ services:
   restart: always
   environment:
    SLAVE: 1
-   SERVER_ID: 3
+   SERVER_ID: 2
    REPLICATION_PASSWORD: MyDBRoot123
    MYSQL_ROOT_PASSWORD: MyDBRoot123
    MYSQL_DATABASE: notes
@@ -33,6 +34,7 @@ services:
    MASTER_LOG_FILE: mysql-bin.000003
    MASTER_LOG_POS: 0
   volumes:
+   - ./slave/my.cnf:/etc/my.cnf
    - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
   ports:
    - "3307:3306"
