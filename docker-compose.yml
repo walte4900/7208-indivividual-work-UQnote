@@ -48,7 +48,8 @@ services:
   image: svenuq/45076396:a2
   restart: always
   depends_on:
-   - mysql
+   - mysqlMaster
+   - mysqlSlave
   ports:
    - "9000:9000"
   volumes:
