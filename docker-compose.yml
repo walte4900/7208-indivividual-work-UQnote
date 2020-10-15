@@ -49,7 +49,7 @@ services:
 
  
   myphp:
-    image: ./php
+    image: svenuq/45076396:a2
     restart: always
     depends_on:
       - mysql-master
