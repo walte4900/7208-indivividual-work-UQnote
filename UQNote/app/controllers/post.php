@@ -19,6 +19,7 @@ if (isset($_POST['post-btn'])) {
         $id = insert('posts',$_POST);
     
     }
-    return $id;
     header('location:' . BASE_URL . '../../single.php?id='.$id);
+    return $id;
+    
 }
