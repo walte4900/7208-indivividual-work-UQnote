@@ -76,14 +76,14 @@
                         <div style="background-image: url('assets/images/note.jpg');
                         background-size: 100% auto;" alt="" class="post-image"></div>
                         <div class="post-preview">
-                            <h2 class='post-preview-title'><a href="heading.php">Let's start!</a></h2>
+                            <h2 class='post-preview-title'><a href="loadBalanceTest.php">Let's see if php scaled up successfully!</a></h2>
                             <i class="fa fa-user">Ziwen Wang</i>
                             &nbsp
                             <i class="fa fa-calendar"></i>Today!
                             &nbsp
                             Intro
                             <p class="preview-text">
-                                Start the first note!
+                                Refresh it!!!!
                             </p>
                         </div>
                     </div>
