@@ -7,12 +7,11 @@ services:
     environment:
       SERVER_ID: 1
       HOSTNAME: mysql-master
-      MARIADB_REPLICATION_MODE: master
-      MARIADB_REPLICATION_USER: repl
-      MARIADB_REPLICATION_PASSWOR: '112233'
-      MARIADB_ROOT_PASSWORD: root
+      MYSQL_REPLICATION_MODE: master
+      MYSQL_REPLICATION_USER: repl
+      MYSQL_REPLICATION_PASSWOR: '112233'
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: notes
-      
     volumes:
       - ./master/data:/var/lib/mysql
       - ./master/my.cnf:/etc/mysql/conf.d/custom.cnf
@@ -28,13 +27,16 @@ services:
       - mysql-master
     environment:
       SERVER_ID: 2
-      MARIADB_REPLICATION_MODE: slave
-      MARIADB_REPLICATION_USER: repl
-      MARIADB_REPLICATION_PASSWOR: '112233'
-      MARIADB_DATABASE: notes
-      MARIADB_ROOT_PASSWORD: root
-      MARIADB_MASTER_HOST: mysql-master
-      MARIADB_MASTER_ROOT_PASSWORD: root
+      MYSQL_REPLICATION_MODE: slave
+      MYSQL_REPLICATION_USER: repl
+      MYSQL_REPLICATION_PASSWOR: '112233'
+      MYSQL_MASTER_HOST: mysql-master
+      MYSQL_MASTER_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: notes
+      MYSQL_MASTER_PORT_NUMBER: 3306
+      
+      
     restart: always
     volumes:
       - ./slave/data:/var/lib/mysql
