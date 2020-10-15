@@ -1,5 +1,7 @@
 <?php
 //include("path.php");
+ini_set('session.save_handler', 'redis');
+ini_set('session.save_path', BASE_URL . ':6379');
 $_SESSION['id'] = null;
 $_SESSION['name'] = null;
 
