@@ -1,5 +1,8 @@
 <?php
 
+$redis = new Redis();
+$redis->connect('myredis-master', 6379);
+$redis->auth('my_master_password');
 $servername = "mysql-master";
 $username = "root";
 $password = "root";
