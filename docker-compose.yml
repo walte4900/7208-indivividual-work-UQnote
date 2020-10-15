@@ -2,51 +2,51 @@ version: '3.3'
 
 services:
   mysql-master:
-    image: mariadb:latest
+    image: mysql:latest
     restart: always
     environment:
       SERVER_ID: 1
       HOSTNAME: mysql-master
-      MYSQL_REPLICATION_MODE: master
-      MYSQL_REPLICATION_USER: repl
-      MYSQL_REPLICATION_PASSWOR: '112233'
-      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: notes
+      MYSQL_ROOT_PASSWORD: root
     volumes:
       - ./master/data:/var/lib/mysql
       - ./master/my.cnf:/etc/mysql/conf.d/custom.cnf
       - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
-    ports: 
-      - "3306"
+    ports:
+      - 3306:3306
     networks:
       - app-network
 
-  mysql-slave:
-    image: mariadb:latest
-    depends_on:
-      - mysql-master
+  mysql-slave1:
+    image: mysql:latest
     environment:
       SERVER_ID: 2
-      MYSQL_REPLICATION_MODE: slave
-      MYSQL_REPLICATION_USER: repl
-      MYSQL_REPLICATION_PASSWOR: '112233'
-      MYSQL_MASTER_HOST: mysql-master
-      MYSQL_MASTER_ROOT_PASSWORD: root
-      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: notes
-      MYSQL_MASTER_PORT_NUMBER: 3306
-      
-      
+      MYSQL_ROOT_PASSWORD: root
     restart: always
     volumes:
-      - ./slave/data:/var/lib/mysql
-      - ./slave/my.cnf:/etc/mysql/conf.d/custom.cnf
-      - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
+      - ./slave1/data:/var/lib/mysql
+      - ./slave1/my.cnf:/etc/mysql/conf.d/custom.cnf
     ports:
-      - "3306"
+      - 3307:3306
     networks:
       - app-network
 
+  mysql-slave1:
+    image: mysql:latest
+    environment:
+      SERVER_ID: 3
+      MYSQL_DATABASE: notes
+      MYSQL_ROOT_PASSWORD: root
+    restart: always
+    volumes:
+      - ./slave2/data:/var/lib/mysql
+      - ./slave2/my.cnf:/etc/mysql/conf.d/custom.cnf
+    ports:
+      - 3307:3306
+    networks:
+      - app-network
 
  
   myphp:
@@ -56,7 +56,7 @@ services:
       - mysql-master
       - mysql-slave
     ports:
-      - "9000"
+      - "9000:9000"
     volumes:
       - ./UQNote:/var/www/html
     privileged: true
@@ -71,7 +71,7 @@ services:
     image: nginx:latest
     restart: always
     ports:
-      - "80"
+      - "8080:80"
     volumes:
       - ./UQNote:/var/www/html
       - ./nginx.ini:/etc/nginx/conf.d/default.conf
