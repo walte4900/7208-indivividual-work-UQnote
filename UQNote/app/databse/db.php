@@ -1,4 +1,7 @@
 <?php
+
+ini_set("session.save_handler", "redis");
+ini_set("session.save_path", "myredis-master");
 session_start();
 use function PHPSTORM_META\type;
 
