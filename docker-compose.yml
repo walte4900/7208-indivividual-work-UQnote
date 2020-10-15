@@ -7,15 +7,13 @@ services:
     environment:
       HOSTNAME: mysql-master
       MYSQL_DATABASE: notes
-      MYSQL_PASSWORD: php
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: php
     volumes:
       - ./master/data:/var/lib/mysql
       - ./master/my.cnf:/etc/mysql/conf.d/custom.cnf
       - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
     ports:
-      - 3306:3306
+      - "3306"
     networks:
       - app-network
 
@@ -23,15 +21,14 @@ services:
     image: mariadb:latest
     environment:
       MYSQL_DATABASE: notes
-      MYSQL_PASSWORD: php
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: slave
     restart: always
     volumes:
       - ./slave/data:/var/lib/mysql
       - ./slave/my.cnf:/etc/mysql/conf.d/custom.cnf
+      - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
     ports:
-      - 3307:3306
+      - "3306"
     networks:
       - app-network
 
@@ -43,7 +40,7 @@ services:
       - mysql-master
       - mysql-slave
     ports:
-      - "9000:9000"
+      - "9000"
     volumes:
       - ./UQNote:/var/www/html
     privileged: true
