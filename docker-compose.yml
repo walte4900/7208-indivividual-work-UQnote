@@ -6,6 +6,7 @@ services:
     restart: always
     environment:
       HOSTNAME: mysql-master
+      SERVER_ID: 1
       MYSQL_DATABASE: notes
       MYSQL_ROOT_PASSWORD: root
     volumes:
@@ -17,9 +18,27 @@ services:
     networks:
       - app-network
 
-  mysql-slave:
+  mysql-slave1:
     image: mariadb:latest
     environment:
+      SERVER_ID: 2
+      MYSQL_DATABASE: notes
+      MYSQL_ROOT_PASSWORD: root
+    restart: always
+    volumes:
+      - ./slave/data:/var/lib/mysql
+      - ./slave/my.cnf:/etc/mysql/conf.d/custom.cnf
+      - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
+    ports:
+      - "3306"
+    networks:
+      - app-network
+
+
+  mysql-slave2:
+    image: mariadb:latest
+    environment:
+      SERVER_ID: 3
       MYSQL_DATABASE: notes
       MYSQL_ROOT_PASSWORD: root
     restart: always
@@ -38,7 +57,8 @@ services:
     restart: always
     depends_on:
       - mysql-master
-      - mysql-slave
+      - mysql-slave1
+      - mysql-slave2
     ports:
       - "9000"
     volumes:
