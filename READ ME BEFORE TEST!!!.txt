@@ -1,0 +1,38 @@
+/*
+This file is to show the steps to config the mysqls to set up master-slave replication
+of relational databases in the project.
+*/
+
+
+//At first, just build the docker-compose as the type-1 final step in prac8.
+//After running the compose file, we should go into the master mysql.
+//In master mysql, run:
+
+CREATE USER 'replica'@'%' IDENTIFIED BY '112233';
+GRANT REPLICATION SLAVE ON *.* TO 'replica'@'%';
+FLUSH PRIVILEGES;
+show master status;
+
+
+//Then go into slaves, run commands below in each slaves:
+
+CHANGE MASTER TO MASTER_HOST='MYSQL-MASTER',MASTER_PORT=3306,MASTER_USER='REPLICA',\
+MASTER_PASSWORD='112233',MASTER_LOG_FILE='MYSQL-BIN.000005',MASTER_LOG_POS=0,\
+MASTER_SSL=1;
+START SLAVE;
+//The first start will cause the error below
+//Got fatal error 1236 from master when reading data from binary log: ‘Could not find first log file name in binary log index file’
+//Just restart slave as below and it will work fine becasue there is no data in the database for now
+STOP SLAVE;
+RESET SLAVE;
+START SLAVE;
+SHOW SLAVE STATUS;
+
+//Check if Slave_IO_Running | Slave_SQL_Running are all yes.
+//Have a look at the error info.
+
+//If the master and slave are empty at first, you may run:
+
+
+
+//And then check what will happen.
