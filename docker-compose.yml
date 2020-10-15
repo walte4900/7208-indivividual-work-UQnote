@@ -48,6 +48,37 @@ services:
       - app-network
 
  
+  myredis-master:
+    image: 'bitnami/redis:latest'
+    restart: always
+    user: root
+    ports:
+      - '6379'
+    environment:
+      - REDIS_REPLICATION_MODE=master
+      - REDIS_PASSWORD=my_master_password
+    volumes:
+      - './radis:/bitnami'
+    networks:
+      - my-net
+
+  myredis-replica:
+    image: 'bitnami/redis:latest'
+    user: root
+    restart: always
+    ports:
+      - '6379'
+    depends_on:
+      - myredis-master
+    environment:
+      - REDIS_REPLICATION_MODE=slave
+      - REDIS_MASTER_HOST=myredis-master
+      - REDIS_MASTER_PORT_NUMBER=6379
+      - REDIS_MASTER_PASSWORD=my_master_password
+      - REDIS_PASSWORD=my_replica_password
+    networks:
+      - my-net
+
   myphp:
     image: svenuq/45076396:a2
     restart: always
@@ -55,6 +86,8 @@ services:
       - mysql-master
       - mysql-slave1
       - mysql-slave2
+      - myredis-master
+      - myredis-replica
     ports:
       - "9000"
     volumes:
