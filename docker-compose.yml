@@ -60,7 +60,7 @@ services:
     volumes:
       - './radis:/bitnami'
     networks:
-      - my-net
+      - app-network
 
   myredis-replica:
     image: 'bitnami/redis:latest'
@@ -77,7 +77,7 @@ services:
       - REDIS_MASTER_PASSWORD=my_master_password
       - REDIS_PASSWORD=my_replica_password
     networks:
-      - my-net
+      - app-network
 
   myphp:
     image: svenuq/45076396:a2
@@ -113,7 +113,6 @@ services:
     restart: always
     networks:
       - app-network
-
 
 networks:
   app-network:
