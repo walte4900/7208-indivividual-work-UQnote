@@ -1,7 +1,7 @@
 <?php
 
 ini_set("session.save_handler", "redis");
-ini_set("session.save_path", "http://35.239.22.90:6379?auth=my_master_password");
+ini_set("session.save_path", "tcp://11.11.11.1:6379?auth=my_master_password");
 session_start();
 use function PHPSTORM_META\type;
 
