@@ -80,7 +80,7 @@ services:
       - app-network
 
   myphp:
-    image: ./src/php
+    build: ./src/php
     restart: always
     depends_on:
       - mysql-master
