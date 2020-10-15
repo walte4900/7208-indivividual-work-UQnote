@@ -10,7 +10,7 @@ services:
       MYSQL_DATABASE: notes
       MYSQL_ROOT_PASSWORD: root
     volumes:
-      - ./master/data:/var/lib/mysql
+      - ./master:/var/lib/mysql
       - ./master/my.cnf:/etc/mysql/conf.d/custom.cnf
       - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
     ports:
@@ -26,14 +26,15 @@ services:
       MYSQL_ROOT_PASSWORD: root
     restart: always
     volumes:
-      - ./slave1/data:/var/lib/mysql
+      - ./slave1:/var/lib/mysql
       - ./slave1/my.cnf:/etc/mysql/conf.d/custom.cnf
+      - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
     ports:
       - 3307:3306
     networks:
       - app-network
 
-  mysql-slave1:
+  mysql-slave2:
     image: mysql:latest
     environment:
       SERVER_ID: 3
@@ -41,8 +42,9 @@ services:
       MYSQL_ROOT_PASSWORD: root
     restart: always
     volumes:
-      - ./slave2/data:/var/lib/mysql
+      - ./slave2:/var/lib/mysql
       - ./slave2/my.cnf:/etc/mysql/conf.d/custom.cnf
+      - ./notes.sql:/docker-entrypoint-initdb.d/notes.sql
     ports:
       - 3307:3306
     networks:
@@ -54,7 +56,8 @@ services:
     restart: always
     depends_on:
       - mysql-master
-      - mysql-slave
+      - mysql-slave1
+      - mysql-slave2
     ports:
       - "9000:9000"
     volumes:
