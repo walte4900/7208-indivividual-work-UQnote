@@ -7,27 +7,35 @@ of relational databases in the project.
 sudo docker-compose up -d --scale myredis-master=1 --scale myredis-replica=3 --scale myphp=3 --scale mynginx=1
 
 //After running the compose file, we should go into the master mysql.
+
+sudo docker exec -it CONTAINER-ID bin/bash
+mysql -u root -p
+
+Password: root
+
 //In master mysql, run:
 
-CREATE USER 'replica'@'%' IDENTIFIED BY '112233';
-GRANT REPLICATION SLAVE ON *.* TO 'replica'@'%';
-FLUSH PRIVILEGES;
+create user 'replica'@'%' identified by '112233';
+grant replication slave on *.* to 'replica'@'%';
+flush privileges;
 show master status;
 
 
-//Then go into slaves, run commands below in each slaves:
+//then go into slaves, run commands below in each slaves:
 
-CHANGE MASTER TO MASTER_HOST='MYSQL-MASTER',MASTER_PORT=3306,MASTER_USER='REPLICA',\
-MASTER_PASSWORD='112233',MASTER_LOG_FILE='MYSQL-BIN.000005',MASTER_LOG_POS=0,\
-MASTER_SSL=1;
-START SLAVE;
-//The first start will cause the error below
-//Got fatal error 1236 from master when reading data from binary log: ‘Could not find first log file name in binary log index file’
-//Just restart slave as below and it will work fine becasue there is no data in the database for now
-STOP SLAVE;
-RESET SLAVE;
-START SLAVE;
-SHOW SLAVE STATUS;
+change master to master_host='mysql-master',master_port=3306,master_user='replica',\
+master_password='112233',master_log_file='mysql-bin.000005',master_log_pos=0,\
+master_ssl=1;
+start slave;
+
+//the first-time start will cause the error below
+//got fatal error 1236 from master when reading data from binary log: ‘could not find first log file name in binary log index file’
+//just restart slave as below and it will work fine becasue there is no data in the database for now
+
+stop slave;
+reset slave;
+start slave;
+show slave status;
 
 //Check if Slave_IO_Running | Slave_SQL_Running are all yes.
 //Have a look at the error info.
