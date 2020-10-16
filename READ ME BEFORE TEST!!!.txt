@@ -4,7 +4,8 @@ of relational databases in the project.
 */
 
 
-//At first, just build the docker-compose as the type-1 final step in prac8.
+sudo docker-compose up -d --scale myredis-master=1 --scale myredis-replica=3 --scale myphp=3 --scale mynginx=1
+
 //After running the compose file, we should go into the master mysql.
 //In master mysql, run:
 
